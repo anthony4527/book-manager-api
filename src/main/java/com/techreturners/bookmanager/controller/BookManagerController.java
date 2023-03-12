@@ -17,6 +17,12 @@ public class BookManagerController {
     @Autowired
     BookManagerService bookManagerService;
 
+    @GetMapping("/test")
+    public String getDefault() {
+        //List<Book> books = bookManagerService.getAllBooks();
+       // return new ResponseEntity<>(books, HttpStatus.OK);
+        return "just to test";
+    }
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> books = bookManagerService.getAllBooks();
@@ -30,6 +36,14 @@ public class BookManagerController {
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
+        /* check if book already exist
+        Book chkBook = bookManagerService.getBookById(book.getId());
+        if ((chkBook != null) && (chkBook.getId() == book.getId())) {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("book", "Book Id already exist!");
+            return new ResponseEntity<>(book, httpHeaders, HttpStatus.CONFLICT);
+        }
+*/
         Book newBook = bookManagerService.insertBook(book);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("book", "/api/v1/book/" + newBook.getId().toString());
@@ -46,7 +60,7 @@ public class BookManagerController {
     //User Story 5 - Delete Book By Id
     @DeleteMapping({"/{bookId}"})
     public ResponseEntity<Book> deleteBookById(@PathVariable("bookId") Long bookId) {
-        //bookManagerService.deleteBookById(bookId);
+        bookManagerService.deleteBookById(bookId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

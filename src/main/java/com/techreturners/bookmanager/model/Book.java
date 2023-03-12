@@ -33,4 +33,5 @@ public class Book {
 
     @Column
     Genre genre;
+
 }

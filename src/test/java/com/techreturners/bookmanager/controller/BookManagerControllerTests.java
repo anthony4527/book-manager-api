@@ -111,19 +111,50 @@ public class BookManagerControllerTests {
 
     //User Story 5, use the Book Manager API to delete a book using its ID
     @Test
-    public void testPutAndDeleteABook() throws Exception {
+    public void testPostAndDeleteABook() throws Exception {
 
         Book book = new Book(5L, "NEW 5A", "This is the description for the Book 5A", "A Lee", Genre.Fantasy);
 
+        when(mockBookManagerServiceImpl.insertBook(book)).thenReturn(book);
+
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.put("/api/v1/book/" + book.getId())
+                        MockMvcRequestBuilders.post("/api/v1/book/")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(book)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.delete("/api/v1/book/" + book.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
+        verify(mockBookManagerServiceImpl, times(1)).deleteBookById(book.getId());
+
+    }
+
+
+    @Test
+    public void testPostErrorCheck() throws Exception {
+
+        Book book = new Book(6L, "Mario Child Story", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
+
+       // when(mockBookManagerServiceImpl.insertBook(book)).thenReturn(book);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.post("/api/v1/book/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(book)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        Book book1 = new Book(6L, "Mario Child Story", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
+        //expected result is error status when same book is inserted again
+        //when(mockBookManagerServiceImpl.insertBook(book1)).thenReturn(book1);
+        /*
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.post("/api/v1/book/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(book1)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+*/
+//        verify(mockBookManagerServiceImpl, times(1)).insertBook(book1);
     }
 }

@@ -23,6 +23,9 @@ public class BookManagerServiceImpl implements BookManagerService {
 
     @Override
     public Book insertBook(Book book) {
+
+        //Book chkBook = bookManagerRepository.findById(book.getId()).get();
+
         return bookManagerRepository.save(book);
     }
 
