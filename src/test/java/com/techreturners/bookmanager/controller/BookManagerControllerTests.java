@@ -128,16 +128,39 @@ public class BookManagerControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         verify(mockBookManagerServiceImpl, times(1)).deleteBookById(book.getId());
-
     }
 
+    @Test
+    public void testPostGetCheck() throws Exception {
+
+        Book book = new Book(4L, "Mario Child Story", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
+
+        when(mockBookManagerServiceImpl.insertBook(book)).thenReturn(book);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.post("/api/v1/book/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(book)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+/*
+        Book book1 = new Book(6L, "Mario Child Story", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
+        when(mockBookManagerServiceImpl.getBookById(book1.getId())).thenReturn(book1);
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/book/" + book1.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(6))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Mario Child Story"));
+
+        verify(mockBookManagerServiceImpl, times(2)).getBookById(book1.getId());*/
+//        verify(mockBookManagerServiceImpl, times(1)).insertBook(book1);
+    }
 
     @Test
     public void testPostErrorCheck() throws Exception {
 
-        Book book = new Book(6L, "Mario Child Story", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
+        Book book = new Book(7L, "Minion Childhood", "A story of how Minion grew up", "Lugi", Genre.Fantasy);
 
-       // when(mockBookManagerServiceImpl.insertBook(book)).thenReturn(book);
+        when(mockBookManagerServiceImpl.insertBook(book)).thenReturn(book);
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.post("/api/v1/book/")
@@ -145,16 +168,16 @@ public class BookManagerControllerTests {
                                 .content(mapper.writeValueAsString(book)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        Book book1 = new Book(6L, "Mario Child Story", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
-        //expected result is error status when same book is inserted again
-        //when(mockBookManagerServiceImpl.insertBook(book1)).thenReturn(book1);
-        /*
+        Book book1 = new Book(7L, "Minion Childhood", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
+        //expected result is error status when book with same key is inserted again
+        when(mockBookManagerServiceImpl.getBookById(book1.getId())).thenReturn(book1);
+
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.post("/api/v1/book/")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(book1)))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
-*/
-//        verify(mockBookManagerServiceImpl, times(1)).insertBook(book1);
+                .andExpect(MockMvcResultMatchers.status().isConflict());
+        verify(mockBookManagerServiceImpl, times(2)).getBookById(book1.getId());
+
     }
 }

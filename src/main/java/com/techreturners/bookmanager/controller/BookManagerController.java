@@ -1,6 +1,7 @@
 package com.techreturners.bookmanager.controller;
 
 import com.techreturners.bookmanager.model.Book;
+import com.techreturners.bookmanager.repository.BookManagerRepository;
 import com.techreturners.bookmanager.service.BookManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,12 +18,6 @@ public class BookManagerController {
     @Autowired
     BookManagerService bookManagerService;
 
-    @GetMapping("/test")
-    public String getDefault() {
-        //List<Book> books = bookManagerService.getAllBooks();
-       // return new ResponseEntity<>(books, HttpStatus.OK);
-        return "just to test";
-    }
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> books = bookManagerService.getAllBooks();
@@ -37,13 +32,13 @@ public class BookManagerController {
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         /* check if book already exist
+        Long idx = book.getId();*/
         Book chkBook = bookManagerService.getBookById(book.getId());
         if ((chkBook != null) && (chkBook.getId() == book.getId())) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("book", "Book Id already exist!");
             return new ResponseEntity<>(book, httpHeaders, HttpStatus.CONFLICT);
         }
-*/
         Book newBook = bookManagerService.insertBook(book);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("book", "/api/v1/book/" + newBook.getId().toString());
