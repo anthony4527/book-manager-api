@@ -15,9 +15,6 @@ using a Test-Driven Development approach.
 - Lombok
 - Spring Data JPA
 
-### How to Get Started
-- Fork this repo to your Github and then clone the forked version of this repo
-
 ### Main Entry Point
 - The Main Entry Point for the application is: [BookmanagerApplication.java](src/main/java/com/techreturners/bookmanager/BookmanagerApplication.java)
 
@@ -27,12 +24,6 @@ using a Test-Driven Development approach.
 `mvn test`
 
 ### Tasks
-
-Here are some tasks for you to work on:
-
-📘 Discussion Task
-
-Explore the code and make notes on the following features and how it is being implemented in the code. We'd like you to note down what classes and methods are used and how the objects interact.
 
 The features are:
 - Get All Books
@@ -44,13 +35,23 @@ The features are:
 
 `User Story: As a user, I want to use the Book Manager API to delete a book using its ID`
 
+Task Completed:
+--------------
+A Test case "TestPostAndDeleteABook" is added to the ControllerTest Case Class for TDD. The Controller has been updated with @DeleteMapping to implement a delete-by-Id action to fulfull the above User Story. in the Book Manager API. 
+
 
 📘 Extension Task: Oh no! 😭 We've only covered the happy paths in the solution, can you figure out a way
 to add in exception handling to the project? 
 
 - Clue 1: What if someone wants to add a book with an ID for a book that already exists? How do we handle this gracefully?
-
+Task Completed:
+--------------
+A Test case of "TestPostErrorCheck" is added to the ControllerTest Case Class for TDD.
+The Post API is enhanced to perform a check using ID of the book to be added. If the book ID alredy exosts, the Controller will send back a Response with Http status code - 409 (Conflict). The error message description is returned by the REsponseEntity using a Httpheader entry of {"Error","Book Id Already exist"}. The client application can read this error message to inform the user.
 
 - Clue 2: What if someone wants to find a book by an ID that doesn't yet exist? 
   How can we improve the API by handling errors gracefully and show a helpful message to the client?
-  
+  Task Completed:
+--------------
+  A Test case of "TestGetErrorCheck" is added to the ControllerTest Case Class for TDD.
+The GetById API is enhanced to perform a check using ID of the book for request. If the book ID does not exist in the Model class/backend, the Controller will send back a Response with Http status code - 404 (Not_Found). The error message description is returned by the REsponseEntity using a Httpheader entry of {"Error","Book does not exist"}. The client application can read this error message to inform the user.
