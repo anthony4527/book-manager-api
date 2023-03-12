@@ -40,17 +40,16 @@ Task Completed:
 A Test case "TestPostAndDeleteABook" is added to the ControllerTest Case Class for TDD. The Controller has been updated with @DeleteMapping to implement a delete-by-Id action to fulfull the above User Story. in the Book Manager API. 
 
 
-📘 Extension Task: Oh no! 😭 We've only covered the happy paths in the solution, can you figure out a way
-to add in exception handling to the project? 
+📘 Extension Task: Oh no! 😭 We've only covered the happy paths in the solution, can you figure out a way to add in exception handling to the project? 
 
-- Clue 1: What if someone wants to add a book with an ID for a book that already exists? How do we handle this gracefully?
+What if someone wants to add a book with an ID for a book that already exists? How do we handle this gracefully?
 
 ** Extension Task Completed:
 
 A Test case of "TestPostErrorCheck" is added to the ControllerTest Case Class for TDD.
 The Post API is enhanced to perform a check using ID of the book to be added. If the book ID alredy exosts, the Controller will send back a Response with Http status code - 409 (Conflict). The error message description is returned by the REsponseEntity using a Httpheader entry of {"Error","Book Id Already exist"}. The client application can read this error message to inform the user.
 
-- Clue 2: What if someone wants to find a book by an ID that doesn't yet exist? 
+What if someone wants to find a book by an ID that doesn't yet exist? 
   How can we improve the API by handling errors gracefully and show a helpful message to the client?
   
 **  Extension Task Completed:
