@@ -142,7 +142,6 @@ public class BookManagerControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(book)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
-/*
         Book book1 = new Book(6L, "Mario Child Story", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
         when(mockBookManagerServiceImpl.getBookById(book1.getId())).thenReturn(book1);
         this.mockMvcController.perform(
@@ -151,8 +150,7 @@ public class BookManagerControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(6))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Mario Child Story"));
 
-        verify(mockBookManagerServiceImpl, times(2)).getBookById(book1.getId());*/
-//        verify(mockBookManagerServiceImpl, times(1)).insertBook(book1);
+        verify(mockBookManagerServiceImpl, times(1)).getBookById(book1.getId());
     }
 
     @Test
@@ -179,5 +177,18 @@ public class BookManagerControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isConflict());
         verify(mockBookManagerServiceImpl, times(2)).getBookById(book1.getId());
 
+    }
+    @Test
+    public void testGetNonExistBook() throws Exception {
+
+        Book book = new Book(8L, "Adventure into Mars", "A scary fiction about Mars animals", "Fireman", Genre.Fantasy);
+
+//        when(mockBookManagerServiceImpl.getBookById(book.getId())).thenReturn(book);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/book/" + book.getId()))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Book Four"));
     }
 }
