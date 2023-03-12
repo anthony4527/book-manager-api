@@ -44,14 +44,15 @@ A Test case "TestPostAndDeleteABook" is added to the ControllerTest Case Class f
 to add in exception handling to the project? 
 
 - Clue 1: What if someone wants to add a book with an ID for a book that already exists? How do we handle this gracefully?
-Task Completed:
---------------
+
+** Extension Task Completed:
+
 A Test case of "TestPostErrorCheck" is added to the ControllerTest Case Class for TDD.
 The Post API is enhanced to perform a check using ID of the book to be added. If the book ID alredy exosts, the Controller will send back a Response with Http status code - 409 (Conflict). The error message description is returned by the REsponseEntity using a Httpheader entry of {"Error","Book Id Already exist"}. The client application can read this error message to inform the user.
 
 - Clue 2: What if someone wants to find a book by an ID that doesn't yet exist? 
   How can we improve the API by handling errors gracefully and show a helpful message to the client?
-  Task Completed:
---------------
+  
+**  Extension Task Completed:
   A Test case of "TestGetErrorCheck" is added to the ControllerTest Case Class for TDD.
 The GetById API is enhanced to perform a check using ID of the book for request. If the book ID does not exist in the Model class/backend, the Controller will send back a Response with Http status code - 404 (Not_Found). The error message description is returned by the REsponseEntity using a Httpheader entry of {"Error","Book does not exist"}. The client application can read this error message to inform the user.
