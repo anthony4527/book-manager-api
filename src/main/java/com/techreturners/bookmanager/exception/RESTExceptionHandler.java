@@ -15,4 +15,10 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleBookNotFound(NoBookException ex, WebRequest request){
         return new ResponseEntity<>( new ApiError(ex.getMessage(), HttpStatus.NOT_FOUND, LocalDateTime.now()), HttpStatus.NOT_FOUND );
     }
+
+    @ExceptionHandler(DuplicateBookException.class)
+    public ResponseEntity<Object> handleDuplicateBook(DuplicateBookException ex, WebRequest request){
+        return new ResponseEntity<>( new ApiError(ex.getMessage(), HttpStatus.CONFLICT, LocalDateTime.now()), HttpStatus.CONFLICT );
+    }
+
 }

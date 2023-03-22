@@ -27,26 +27,13 @@ public class BookManagerController {
 
     @GetMapping({"/{bookId}"})
     public ResponseEntity<Book> getBookById(@PathVariable Long bookId) {
-/*       Book book = bookManagerService.getBookById(bookId);
-        if (book == null){
-           HttpHeaders httpHeaders = new HttpHeaders();
-            //httpHeaders.add("Error", "Book Id does not exist!");
-            ErrorMsg err = new ErrorMsg("Fail to Get book beecause the book Id does not exist.")
-            return new ResponseEntity<>(err, httpHeaders, HttpStatus.NOT_FOUND);
-        }else*/
+
         return new ResponseEntity<>(bookManagerService.getBookById(bookId), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         // check if book already exist
-        Book chkBook = bookManagerService.getBookById(book.getId());
-        // if book by given Id already exist, reject POST
-        if (chkBook != null)  {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Error", "Book Id already exist!");
-            return new ResponseEntity<>(book, httpHeaders, HttpStatus.CONFLICT);
-        }
         Book newBook = bookManagerService.insertBook(book);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("book", "/api/v1/book/" + newBook.getId().toString());

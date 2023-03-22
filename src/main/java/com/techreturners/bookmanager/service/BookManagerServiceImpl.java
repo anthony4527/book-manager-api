@@ -1,5 +1,6 @@
 package com.techreturners.bookmanager.service;
 
+import com.techreturners.bookmanager.exception.DuplicateBookException;
 import com.techreturners.bookmanager.exception.NoBookException;
 import com.techreturners.bookmanager.model.Book;
 import com.techreturners.bookmanager.repository.BookManagerRepository;
@@ -26,19 +27,18 @@ public class BookManagerServiceImpl implements BookManagerService {
     @Override
     public Book insertBook(Book book) {
 
-        //Book chkBook = bookManagerRepository.findById(book.getId()).get();
+        Optional<Book> bookOptional = bookManagerRepository.findById(book.getId());
+        if (bookOptional.isPresent()) {
+            throw(new DuplicateBookException("Fail to insert - your Book Id- "+ book.getId()+ " is already exist."));
+        }
 
         return bookManagerRepository.save(book);
     }
 
     @Override
     public Book getBookById(Long id) {
-/*        Optional<Book> bookOptional = bookManagerRepository.findById(id);
-        if (bookOptional.isPresent()) {
-            return bookOptional.get();
-        }else
-            return null;*/
-        return bookManagerRepository.findById(id).orElseThrow(()-> new NoBookException("Your Request Book ID - "+id+" does tno exist"));
+
+        return bookManagerRepository.findById(id).orElseThrow(()-> new NoBookException("Fail to get - your Request Book ID - "+id+" does tno exist"));
     }
 
     //User Story 4 - Update Book By Id Solution
