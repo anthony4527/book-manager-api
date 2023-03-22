@@ -26,13 +26,13 @@ public class BookManagerController {
 
     @GetMapping({"/{bookId}"})
     public ResponseEntity<Book> getBookById(@PathVariable Long bookId) {
-        Book book = bookManagerService.getBookById(bookId);
+       Book book = bookManagerService.getBookById(bookId);
         if (book == null){
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Error", "Book Id does not exist!");
             return new ResponseEntity<>(book, httpHeaders, HttpStatus.NOT_FOUND);
         }else
-        return new ResponseEntity<>(book, HttpStatus.OK);
+        return new ResponseEntity<>(bookManagerService.getBookById(bookId), HttpStatus.OK);
     }
 
     @PostMapping
@@ -40,6 +40,7 @@ public class BookManagerController {
         // check if book already exist
 
         Book chkBook = bookManagerService.getBookById(book.getId());
+
         if ((chkBook != null) && (chkBook.getId() == book.getId())) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Error", "Book Id already exist!");
