@@ -1,5 +1,6 @@
 package com.techreturners.bookmanager.service;
 
+import com.techreturners.bookmanager.exception.NoBookException;
 import com.techreturners.bookmanager.model.Book;
 import com.techreturners.bookmanager.repository.BookManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,12 @@ public class BookManagerServiceImpl implements BookManagerService {
 
     @Override
     public Book getBookById(Long id) {
-        //Book book2 =  bookManagerRepository.findById(id).get();
-        //return book2;
-
-        Optional<Book> bookOptional = bookManagerRepository.findById(id);
+/*        Optional<Book> bookOptional = bookManagerRepository.findById(id);
         if (bookOptional.isPresent()) {
             return bookOptional.get();
         }else
-            return null;
-
-//        return bookManagerRepository.findById(id).get();
+            return null;*/
+        return bookManagerRepository.findById(id).orElseThrow(()-> new NoBookException("Your Request Book ID - "+id+" does tno exist"));
     }
 
     //User Story 4 - Update Book By Id Solution

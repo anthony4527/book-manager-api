@@ -1,6 +1,7 @@
 package com.techreturners.bookmanager.controller;
 
 import com.techreturners.bookmanager.model.Book;
+import com.techreturners.bookmanager.model.ErrorMsg;
 import com.techreturners.bookmanager.repository.BookManagerRepository;
 import com.techreturners.bookmanager.service.BookManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +27,22 @@ public class BookManagerController {
 
     @GetMapping({"/{bookId}"})
     public ResponseEntity<Book> getBookById(@PathVariable Long bookId) {
-       Book book = bookManagerService.getBookById(bookId);
+/*       Book book = bookManagerService.getBookById(bookId);
         if (book == null){
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Error", "Book Id does not exist!");
-            return new ResponseEntity<>(book, httpHeaders, HttpStatus.NOT_FOUND);
-        }else
+           HttpHeaders httpHeaders = new HttpHeaders();
+            //httpHeaders.add("Error", "Book Id does not exist!");
+            ErrorMsg err = new ErrorMsg("Fail to Get book beecause the book Id does not exist.")
+            return new ResponseEntity<>(err, httpHeaders, HttpStatus.NOT_FOUND);
+        }else*/
         return new ResponseEntity<>(bookManagerService.getBookById(bookId), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         // check if book already exist
-
         Book chkBook = bookManagerService.getBookById(book.getId());
-
-        if ((chkBook != null) && (chkBook.getId() == book.getId())) {
+        // if book by given Id already exist, reject POST
+        if (chkBook != null)  {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Error", "Book Id already exist!");
             return new ResponseEntity<>(book, httpHeaders, HttpStatus.CONFLICT);
