@@ -94,7 +94,7 @@ public class BookManagerServiceTests {
         when(mockBookManagerRepository.findById(bookId)).thenReturn(Optional.empty());
 
         Exception e = assertThrows(NoBookException.class, ()-> bookManagerServiceImpl.getBookById(bookId) );
-        assertEquals ( e.getMessage(), "Fail to get - your Request Book ID - 55 does tno exist");
+        assertEquals ( e.getMessage(), "Fail to get - your Request Book ID - 55 does not exist");
 
         verify(mockBookManagerRepository, times(1)).findById(bookId);
     }
@@ -108,7 +108,7 @@ public class BookManagerServiceTests {
         when(mockBookManagerRepository.findById(bookId)).thenReturn(Optional.of(book));
 
         Exception e = assertThrows(DuplicateBookException.class, ()-> bookManagerServiceImpl.insertBook(book) );
-        assertEquals ( e.getMessage(), "Fail to insert - your Book Id- 56 is already exist.");
+        assertEquals ( e.getMessage(), "Fail to insert - your Book Id- 56 already exists");
 
         verify(mockBookManagerRepository, times(1)).findById(bookId);
     }

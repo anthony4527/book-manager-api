@@ -29,7 +29,7 @@ public class BookManagerServiceImpl implements BookManagerService {
 
         Optional<Book> bookOptional = bookManagerRepository.findById(book.getId());
         if (bookOptional.isPresent()) {
-            throw(new DuplicateBookException("Fail to insert - your Book Id- "+ book.getId()+ " is already exist."));
+            throw(new DuplicateBookException("Fail to insert - your Book Id- "+ book.getId()+ " already exists"));
         }
 
         return bookManagerRepository.save(book);
@@ -39,7 +39,7 @@ public class BookManagerServiceImpl implements BookManagerService {
     public Book getBookById(Long id) {
 
 
-        return bookManagerRepository.findById(id).orElseThrow(()-> new NoBookException("Fail to get - your Request Book ID - "+id+" does tno exist"));
+        return bookManagerRepository.findById(id).orElseThrow(()-> new NoBookException("Fail to get - your Request Book ID - "+id+" does not exist"));
     }
 
     //User Story 4 - Update Book By Id Solution
