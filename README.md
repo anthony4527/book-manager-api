@@ -44,14 +44,16 @@ A Test case "TestPostAndDeleteABook" is added to the ControllerTest Case Class f
 
 What if someone wants to add a book with an ID for a book that already exists? How do we handle this gracefully?
 
-** Extension Task Completed:
-
-A Test case of "TestPostErrorCheck" is added to the ControllerTest Case Class for TDD.
-The Post API is enhanced to perform a check using ID of the book to be added. If the book ID alredy exosts, the Controller will send back a Response with Http status code - 409 (Conflict). The error message description is returned by the REsponseEntity using a Httpheader entry of {"Error","Book Id Already exist"}. The client application can read this error message to inform the user.
+### Extension Task Updates (23Mar2023):
+I have created a DuplicateBookException class, and use the ResponseEntityExceptionHandler to throw error message. The service class check if a book alredy exist, and if yes will throw the error message and return a Conflict status code (409) in the JSON response..
+A Test case of "TestExceptionInsertException" is added to the Service Test Case Class for TDD.
 
 What if someone wants to find a book by an ID that doesn't yet exist? 
   How can we improve the API by handling errors gracefully and show a helpful message to the client?
   
-**  Extension Task Completed:
-  A Test case of "TestGetErrorCheck" is added to the ControllerTest Case Class for TDD.
-The GetById API is enhanced to perform a check using ID of the book for request. If the book ID does not exist in the Model class/backend, the Controller will send back a Response with Http status code - 404 (Not_Found). The error message description is returned by the REsponseEntity using a Httpheader entry of {"Error","Book does not exist"}. The client application can read this error message to inform the user.
+### Extension Task Updates (23Mar2023):
+I have created a NoBookException class, and use the ResponseEntityExceptionHandler to throw error message. The service class getBookById method checks  if a book does not exists,  throw the detailed error message via JSON response and return a NOT_FOUND status code (404) in the Http status code. 
+  A Test case of "TestExceptionGetBookById" is added to the Service Test Case Class for TDD.
+
+The test cases can be run using application-dev properties file.
+The classes can also be tested with postgres Database when application-prod properties file is used.
