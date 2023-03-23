@@ -38,6 +38,7 @@ public class BookManagerServiceImpl implements BookManagerService {
     @Override
     public Book getBookById(Long id) {
 
+
         return bookManagerRepository.findById(id).orElseThrow(()-> new NoBookException("Fail to get - your Request Book ID - "+id+" does tno exist"));
     }
 

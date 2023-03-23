@@ -168,7 +168,7 @@ public class BookManagerControllerTests {
 
         Book book1 = new Book(7L, "Minion Childhood", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
         //expected result is error status when book with same key is inserted again
-        when(mockBookManagerServiceImpl.getBookById(book1.getId())).thenReturn(book1);
+        when(mockBookManagerServiceImpl.insertBook(book1)).thenReturn(book1);
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.post("/api/v1/book/")
@@ -178,17 +178,5 @@ public class BookManagerControllerTests {
         verify(mockBookManagerServiceImpl, times(2)).getBookById(book1.getId());
 
     }
-    @Test
-    public void testGetNonExistBook() throws Exception {
 
-        Book book = new Book(8L, "Adventure into Mars", "A scary fiction about Mars animals", "Fireman", Genre.Fantasy);
-
-//        when(mockBookManagerServiceImpl.getBookById(book.getId())).thenReturn(book);
-
-        this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/book/" + book.getId()))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Book Four"));
-    }
 }

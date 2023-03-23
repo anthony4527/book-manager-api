@@ -1,5 +1,6 @@
 package com.techreturners.bookmanager.service;
 
+import com.techreturners.bookmanager.exception.NoBookException;
 import com.techreturners.bookmanager.model.Book;
 import com.techreturners.bookmanager.model.Genre;
 
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @DataJpaTest
@@ -79,6 +82,20 @@ public class BookManagerServiceTests {
         bookManagerServiceImpl.updateBookById(bookId, book);
 
         verify(mockBookManagerRepository, times(1)).save(book);
+    }
+    //Test throw Exception when Get a book with not found
+    @Test
+    public void testExceptionGetBookById() {
+
+        Long bookId = 55L;
+        var book = new Book(55L, "Book Five", "This is the description for Book Five", "Person Five", Genre.Fantasy);
+
+        when(mockBookManagerRepository.findById(bookId)).thenReturn(Optional.empty());
+
+        Exception e = assertThrows(NoBookException.class, ()-> bookManagerServiceImpl.getBookById(bookId) );
+        assertEquals ( e.getMessage(), "Fail to get - your Request Book ID - 55 does tno exist");
+
+        verify(mockBookManagerRepository, times(1)).findById(bookId);
     }
 
 }
