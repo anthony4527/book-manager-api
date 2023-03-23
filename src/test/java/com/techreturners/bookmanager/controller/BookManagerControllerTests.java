@@ -153,30 +153,5 @@ public class BookManagerControllerTests {
         verify(mockBookManagerServiceImpl, times(1)).getBookById(book1.getId());
     }
 
-    @Test
-    public void testPostErrorCheck() throws Exception {
-
-        Book book = new Book(7L, "Minion Childhood", "A story of how Minion grew up", "Lugi", Genre.Fantasy);
-
-        when(mockBookManagerServiceImpl.insertBook(book)).thenReturn(book);
-
-        this.mockMvcController.perform(
-                        MockMvcRequestBuilders.post("/api/v1/book/")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(book)))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
-
-        Book book1 = new Book(7L, "Minion Childhood", "A story of how Mario grew up", "Lugi", Genre.Fantasy);
-        //expected result is error status when book with same key is inserted again
-        when(mockBookManagerServiceImpl.insertBook(book1)).thenReturn(book1);
-
-        this.mockMvcController.perform(
-                        MockMvcRequestBuilders.post("/api/v1/book/")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(book1)))
-                .andExpect(MockMvcResultMatchers.status().isConflict());
-        verify(mockBookManagerServiceImpl, times(2)).getBookById(book1.getId());
-
-    }
 
 }

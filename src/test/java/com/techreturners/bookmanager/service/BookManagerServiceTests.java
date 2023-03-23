@@ -1,5 +1,6 @@
 package com.techreturners.bookmanager.service;
 
+import com.techreturners.bookmanager.exception.DuplicateBookException;
 import com.techreturners.bookmanager.exception.NoBookException;
 import com.techreturners.bookmanager.model.Book;
 import com.techreturners.bookmanager.model.Genre;
@@ -98,4 +99,17 @@ public class BookManagerServiceTests {
         verify(mockBookManagerRepository, times(1)).findById(bookId);
     }
 
+    @Test
+    public void testExceptionInsertDuplicate() {
+
+        Long bookId = 56L;
+        var book = new Book(56L, "Book Five", "This is the description for Book Five", "Person Five", Genre.Fantasy);
+
+        when(mockBookManagerRepository.findById(bookId)).thenReturn(Optional.of(book));
+
+        Exception e = assertThrows(DuplicateBookException.class, ()-> bookManagerServiceImpl.insertBook(book) );
+        assertEquals ( e.getMessage(), "Fail to insert - your Book Id- 56 is already exist.");
+
+        verify(mockBookManagerRepository, times(1)).findById(bookId);
+    }
 }
