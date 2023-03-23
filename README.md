@@ -44,13 +44,16 @@ A Test case "TestPostAndDeleteABook" is added to the ControllerTest Case Class f
 
 What if someone wants to add a book with an ID for a book that already exists? How do we handle this gracefully?
 
-##Extension Task Updates (23Mar2023):
+### Extension Task Updates (23Mar2023):
 I have created a DuplicateBookException class, and use the ResponseEntityExceptionHandler to throw error message. The service class check if a book alredy exist, and if yes will throw the error message and return a Conflict status code (409) in the JSON response..
 A Test case of "TestExceptionInsertException" is added to the Service Test Case Class for TDD.
 
 What if someone wants to find a book by an ID that doesn't yet exist? 
   How can we improve the API by handling errors gracefully and show a helpful message to the client?
   
-##Extension Task Updates (23Mar2023):
+### Extension Task Updates (23Mar2023):
 I have created a NoBookException class, and use the ResponseEntityExceptionHandler to throw error message. The service class getBookById method checks  if a book does not exists,  throw the detailed error message via JSON response and return a NOT_FOUND status code (404) in the Http status code. 
   A Test case of "TestExceptionGetBookById" is added to the Service Test Case Class for TDD.
+
+The test cases can be run using application-dev properties file.
+The classes can also be tested with postgres Database when application-prod properties file is used.
